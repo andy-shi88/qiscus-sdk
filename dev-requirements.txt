@@ -1,2 +1,3 @@
 # tests dependencies
 nose
+voluptuous==0.10.5
