@@ -1,4 +1,3 @@
-import uuid
 from voluptuous import Schema, Required, Length, Url, MultipleInvalid, Invalid
 from unittest import TestCase
 
