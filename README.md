@@ -58,6 +58,8 @@ The above call will come with something like this:
 - [x] get user info
 
 ## Tests
+- run unit tests with `python setup.py test` 
+- run linter test with `flake8` 
 
 ### How:
 test can be run with the following steps:
