@@ -1,3 +1,4 @@
 # tests dependencies
 nose
 voluptuous==0.10.5
+flake8==3.5.0
