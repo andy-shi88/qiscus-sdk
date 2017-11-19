@@ -1,4 +1,4 @@
-from .api.api_base import ApiBase
+from .api.api_base import ApiBase # noqa
 from .configs.constants import API_BASE_URI, ENDPOINTS
 
 
@@ -60,3 +60,42 @@ class Qiscus(ApiBase):
 			'user_email': user_email
 		}
 		return self.post(endpoint=ENDPOINTS['reset_user_token'], payloads=payloads)
+
+	def get_user_rooms(
+		self, user_email, page=1,
+		show_participants=False, room_type=None):
+		"""Get user room list.
+		@params:
+			- user_email, string - required
+			- page, int - optional {default=0} [page number for the list,
+				20 rows per page]
+			- show_participants, bool - optional {default=False}
+			- room_type, string - optional {default=None}, opt=[single, group]
+		@return list of rooms depends on what information is included by params
+		"""
+		query = {
+			'user_email': user_email,
+			'page': page,
+			'show_participants': show_participants,
+			'room_type': room_type
+		}
+		return self.get(endpoint=ENDPOINTS['get_user_rooms'], query=query)
+
+	def create_room(
+		self, name, participants,
+		creator, avatar_url=None):
+		"""Create user room and put participants into it.
+		@params:
+			- name: string - required.
+			- participants: list - required.
+			- creator: string - required.
+			- avatar_url: string - optional.
+		@return dict, created room information and its participants.
+		"""
+		payloads = {
+			'name': name,
+			'participants': participants,
+			'creator': creator,
+			'avatar_url': avatar_url
+		}
+		return self.post(endpoint=ENDPOINTS['create_room'], payloads=payloads)
