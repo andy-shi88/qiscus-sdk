@@ -32,7 +32,10 @@ class ApiBase(ApiBaseInterface):
 		)
 
 	def request(self, request_call):
-		"""Request call to self.endpoint."""
+		"""Request call to self.endpoint.
+		@params:
+			- request_call, callback - required
+		"""
 		try:
 			result = request_call
 			return result.json()
