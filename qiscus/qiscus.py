@@ -33,4 +33,15 @@ class Qiscus(ApiBase):
 		 	+ device_token, optional
 		 	+ device_platform, optional
 		'''
-		return super().post(ENDPOINTS['login_register'], payloads)
+		return self.post(endpoint=ENDPOINTS['login_register'], payloads=payloads)
+
+	def get_user_profile(self, user_email):
+		'''
+		get_user_profile(user_email [required])
+		 - get user profile info by email
+		 	+ user_email
+		'''
+		query = {
+			'user_email': user_email
+		}
+		return self.get(endpoint=ENDPOINTS['user_profile'], query=query)
