@@ -113,22 +113,28 @@ class TestApi(TestCase):
 
 	def test_login_register(self):
 		"""Test login and register method call."""
-		result = self.qiscus.login_register(self.login_register_payload)
+		result = self.qiscus.login_register(
+			email=self.login_register_payload['email'],
+			password=self.login_register_payload['password'],
+			username=self.login_register_payload['username'])
 		self.assertTrue(isinstance(result, dict))
 		self.assertEqual(result['status'], 200)
 		self.assertEqual(self.login_register_success_schema(result), result)
 		"""Remove password some required payload here and there"""
-		invalid_payload = self.login_register_payload.copy()
-		tobe_removed_key = random.choice(list(invalid_payload.keys()))
-		del invalid_payload[tobe_removed_key]
-		result = self.qiscus.login_register(invalid_payload)
+		result = self.qiscus.login_register(
+			email=self.login_register_payload['email'],
+			password=self.login_register_payload['password'],
+			username=None)
 		self.assertTrue(isinstance(result, dict))
 		self.assertEqual(result['status'], 400)
 		self.assertEqual(self.invalid_payload_schema(result), result)
 
 	def test_login_register_fail_app(self):
 		"""Test login and register failure call."""
-		result = self.qiscus_fail.login_register(self.login_register_payload)
+		result = self.qiscus_fail.login_register(
+			email=self.login_register_payload['email'],
+			password=self.login_register_payload['password'],
+			username=self.login_register_payload['username'])
 		self.assertTrue(isinstance(result, dict))
 		self.assertEqual(result['status'], 400)
 		self.assertEqual(self.login_register_fail_schema(result), result)
