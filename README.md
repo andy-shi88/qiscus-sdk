@@ -53,6 +53,9 @@ The above call will come with something like this:
 ```
 
 # This is still Work in Progress
+## finished functionalities and tests
+- [x] login register
+- [x] get user info
 
 ## Tests
 
