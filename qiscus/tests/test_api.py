@@ -1,5 +1,5 @@
-import uuid
-import random
+import uuid # noqa
+import random # noqa
 from unittest import TestCase
 from voluptuous import Schema, Required
 
@@ -105,6 +105,25 @@ class TestApi(TestCase):
 			notfound_result), notfound_result)
 		"""Invalid payload test"""
 		invalidpayload_result = self.qiscus.get_user_profile(None)
+		self.assertTrue(isinstance(invalidpayload_result, dict))
+		self.assertEqual(invalidpayload_result['status'], 400)
+		self.assertEqual(self.invalid_payload_schema(
+			invalidpayload_result), invalidpayload_result)
+
+	def test_reset_user_token(self):
+		"""Reset user token test, will return user profile information."""
+		result = self.qiscus.reset_user_token(self.login_register_payload['email'])
+		self.assertTrue(isinstance(result, dict))
+		self.assertEqual(result['status'], 200)
+		self.assertEqual(self.login_register_success_schema(result), result)
+		"""Not registered email test."""
+		notfound_result = self.qiscus.reset_user_token('damn@it.com')
+		self.assertTrue(isinstance(notfound_result, dict))
+		self.assertEqual(notfound_result['status'], 400)
+		self.assertEqual(self.invalid_payload_schema(
+			notfound_result), notfound_result)
+		"""Invalid payload test"""
+		invalidpayload_result = self.qiscus.reset_user_token(None)
 		self.assertTrue(isinstance(invalidpayload_result, dict))
 		self.assertEqual(invalidpayload_result['status'], 400)
 		self.assertEqual(self.invalid_payload_schema(
