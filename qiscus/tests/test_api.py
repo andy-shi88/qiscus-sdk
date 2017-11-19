@@ -68,6 +68,48 @@ class TestApi(TestCase):
 				},
 			}
 		})
+		self.room_success_schema = Schema({
+			Required('results'): {
+				Required('meta'): {
+					Required('current_page'): int,
+					Required('total_room'): int
+				},
+				Required('rooms_info'): [
+					{
+						'is_removed': bool,
+						'last_comment_id': int,
+						'last_comment_id_str': str,
+						'last_comment_message': str,
+						'last_comment_sender_email': str,
+						'last_comment_sender_id': int,
+						'last_comment_sender_id_str': str,
+						'last_comment_sender_username': str,
+						'last_comment_timestamp': str,
+						'last_comment_timestamp_unix': int,
+						'raw_room_name': str,
+						'room_avatar_url': str,
+						'room_unique_id': str,
+						'room_id': int,
+						'room_id_str': str,
+						'room_options': str,
+						'room_name': str,
+						'room_type': str,
+						'unread_count': int
+					}
+				]
+			},
+			Required('status'): int
+		})
+		self.room_created_schema = Schema({
+			Required('results'): {
+				Required('creator'): str,
+				Required('participants'): list,
+				Required('room_id'): int,
+				Required('room_name'): str,
+				Required('room_type'): str
+			},
+			Required('status'): int
+		})
 
 	def test_login_register(self):
 		"""Test login and register method call."""
@@ -111,7 +153,7 @@ class TestApi(TestCase):
 			invalidpayload_result), invalidpayload_result)
 
 	def test_reset_user_token(self):
-		"""Reset user token test, will return user profile information."""
+		"""Reset user token test."""
 		result = self.qiscus.reset_user_token(self.login_register_payload['email'])
 		self.assertTrue(isinstance(result, dict))
 		self.assertEqual(result['status'], 200)
@@ -124,6 +166,54 @@ class TestApi(TestCase):
 			notfound_result), notfound_result)
 		"""Invalid payload test"""
 		invalidpayload_result = self.qiscus.reset_user_token(None)
+		self.assertTrue(isinstance(invalidpayload_result, dict))
+		self.assertEqual(invalidpayload_result['status'], 400)
+		self.assertEqual(self.invalid_payload_schema(
+			invalidpayload_result), invalidpayload_result)
+
+	def test_get_rooms(self):
+		"""Get user rooms tests."""
+		result = self.qiscus.get_user_rooms(
+			user_email=self.login_register_payload['email'])
+		self.assertTrue(isinstance(result, dict))
+		self.assertEqual(result['status'], 200)
+		self.assertEqual(self.room_success_schema(result), result)
+		"""Not registered email test."""
+		notfound_result = self.qiscus.get_user_rooms('damn@it.com')
+		self.assertTrue(isinstance(notfound_result, dict))
+		self.assertEqual(notfound_result['status'], 400)
+		self.assertEqual(self.invalid_payload_schema(
+			notfound_result), notfound_result)
+		"""Invalid payload test"""
+		invalidpayload_result = self.qiscus.get_user_rooms(None)
+		self.assertTrue(isinstance(invalidpayload_result, dict))
+		self.assertEqual(invalidpayload_result['status'], 400)
+		self.assertEqual(self.invalid_payload_schema(
+			invalidpayload_result), invalidpayload_result)
+
+	def create_rooms(self):
+		"""Create room tests."""
+		result = self.qiscus.create_room(
+			name=str(uuid.uuid4()),
+			participants=[self.login_register_payload['email']],
+			creator='andy.developmode@gmail.com')
+		self.assertTrue(isinstance(result, dict))
+		self.assertEqual(result['status'], 200)
+		self.assertEqual(self.room_created_schema(result), result)
+		"""Not registered email test."""
+		notfound_result = self.qiscus.create_room(
+			name='thiswillfail',
+			participants=['damn@it.com'],
+			creator='darn@it.com')
+		self.assertTrue(isinstance(notfound_result, dict))
+		self.assertEqual(notfound_result['status'], 400)
+		self.assertEqual(self.invalid_payload_schema(
+			notfound_result), notfound_result)
+		"""Invalid payload test"""
+		invalidpayload_result = self.qiscus.create_room(
+			name=None,
+			participants=[],
+			creator=None)
 		self.assertTrue(isinstance(invalidpayload_result, dict))
 		self.assertEqual(invalidpayload_result['status'], 400)
 		self.assertEqual(self.invalid_payload_schema(
