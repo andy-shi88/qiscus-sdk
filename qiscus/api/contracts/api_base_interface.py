@@ -1,23 +1,18 @@
-from abc import ABCMeta, abstractmethod
+from abc import ABCMeta, abstractmethod # noqa
 
 
 class ApiBaseInterface(metaclass=ABCMeta):
+	"""Contract on qiscus api call.
+	methods:
+		+ request(endpoint [required])
+	"""
 
-	'''
-	contract on qiscus api call
-		methods:
-			+ request(endpoint [required])
-	'''
 	@abstractmethod
 	def get(self, endpoint, query=[]):
-		'''
-		send GET request to qiscus_base_url + $endpoint
-		'''
+		"""Send GET request to qiscus_base_url + $endpoint."""
 		pass
 
 	@abstractmethod
 	def post(self, endpoint, payloads):
-		'''
-		send POST request to qiscus_base_url + $endpoint
-		'''
+		"""Send POST request to qiscus_base_url + $endpoint."""
 		pass
