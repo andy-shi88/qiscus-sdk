@@ -1,4 +1,4 @@
-import uuid
+import uuid # noqa
 from unittest import TestCase
 
 from ..qiscus_builder import QiscusBuilder
