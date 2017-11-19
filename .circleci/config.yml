@@ -46,6 +46,12 @@ jobs:
             . env/bin/activate
             python setup.py test
 
+      # run linter!
+      - run:
+          name: run linter
+          command: |
+            flake8
+
       - store_artifacts:
           path: test-reports
           destination: test-reports
