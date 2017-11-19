@@ -56,12 +56,10 @@ The above call will come with something like this:
 ## finished functionalities and tests
 - [x] login register
 - [x] get user info
+- [x] reset user token
 
 ## Tests
+- first activate the virtual environment `. env/bin/activate`
+- install the test tools requirements by running `pip install -r dev-requirements`
 - run unit tests with `python setup.py test` 
 - run linter test with `flake8` 
-
-### How:
-test can be run with the following steps:
-- run `pip install -r dev-requirements.txt` to install the testing dependencies
-- python setup.py test
