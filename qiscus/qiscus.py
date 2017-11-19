@@ -25,18 +25,29 @@ class Qiscus(ApiBase):
 			'qiscus_sdk_secret': app_secret
 		}
 
-	def login_register(self, payloads):
+	def login_register(
+		self, email, password, username,
+		avatar_url=None,
+		device_token=None,
+		device_platform=None):
 		"""Login and register method.
 		@params:
-			- payloads, dict - required
-				+ email, string - required
-				+ password, string - required
-				+ username, string - required
-				+ avatar_url, string - optional
-				+ device_token, string - optional
-				+ device_platform, string - optional
+			- email, string - required
+			- password, string - required
+			- username, string - required
+			- avatar_url, string - optional
+			- device_token, string - optional
+			- device_platform, string - optional
 		@return user profile information, dict
 		"""
+		payloads = {
+			'email': email,
+			'password': password,
+			'username': username,
+			'avatar_url': avatar_url,
+			'device_token': device_token,
+			'device_platform': device_platform
+		}
 		return self.post(endpoint=ENDPOINTS['login_register'], payloads=payloads)
 
 	def get_user_profile(self, user_email):
