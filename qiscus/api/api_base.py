@@ -7,11 +7,11 @@ class ApiBase(ApiBaseInterface):
 	def __init__(self):
 		pass
 
-	def get(self, endpoint, query=[]):
+	def get(self, endpoint, query={}):
 		return self.request(
 			requests.get(
 				self.base_url + endpoint, 
-		    	params=self.build_query(query), 
+		    	params=query, 
 		    	headers=self.headers
 			)
 		)
@@ -24,14 +24,6 @@ class ApiBase(ApiBaseInterface):
 				json=payloads
 			)
 		)
-
-	def build_query(self, query=[]):
-		if len(query) < 1:
-			return ''
-		result = '?'
-		for key, value in query:
-			result += (key + '=' + value)
-		return result
 
 	def request(self, request_call):
 		'''
