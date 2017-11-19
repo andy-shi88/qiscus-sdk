@@ -1,4 +1,4 @@
-import requests
+import requests # noqa
 from .contracts.api_base_interface import ApiBaseInterface
 
 
