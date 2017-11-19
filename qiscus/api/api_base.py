@@ -3,20 +3,26 @@ from .contracts.api_base_interface import ApiBaseInterface
 
 
 class ApiBase(ApiBaseInterface):
+	"""API call base class.
+	storing base methods for requesting to api
+	"""
 
 	def __init__(self):
+		"""Default API base class constructor."""
 		pass
 
 	def get(self, endpoint, query={}):
+		"""Default get method doc in the interface."""
 		return self.request(
 			requests.get(
-				self.base_url + endpoint, 
-		    	params=query, 
-		    	headers=self.headers
+				self.base_url + endpoint,
+				params=query,
+				headers=self.headers
 			)
 		)
 
 	def post(self, endpoint, payloads):
+		"""Default post method doc in the interface."""
 		return self.request(
 			requests.post(
 				self.base_url + endpoint,
@@ -26,10 +32,7 @@ class ApiBase(ApiBaseInterface):
 		)
 
 	def request(self, request_call):
-		'''
-		request(request_call [callback])
-		request call to self.endpoint
-		'''
+		"""Request call to self.endpoint."""
 		try:
 			result = request_call
 			return result.json()

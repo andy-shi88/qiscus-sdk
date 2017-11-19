@@ -1,6 +1,7 @@
 from setuptools import setup
 
-setup(name='qiscus-sdk',
+setup(
+	name='qiscus-sdk',
 	version='0.1.0',
 	description='qiscus sdk for easily interact with qiscus api',
 	keywords='python qiscus sdk',
@@ -10,8 +11,8 @@ setup(name='qiscus-sdk',
 	license='',
 	packages=['qiscus'],
 	install_requires=[
-          'requests'
-    ],
-    test_suite='nose.collector',
-    test_requires=['nose'],
+		'requests'
+	],
+	test_suite='nose.collector',
+	test_requires=['nose'],
 	zip_safe=False)
