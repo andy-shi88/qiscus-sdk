@@ -2,6 +2,6 @@
 ignore = W191
 # W191: Tab as indent
 
-exclude = env,.git,__pycache__,build,dist
+exclude = env,.git,__pycache__,build,dist,./.eggs/*
 
 max-complexity = 10

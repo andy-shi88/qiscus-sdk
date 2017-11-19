@@ -1,4 +1,4 @@
 # tests dependencies
-nose
+nose==1.3.7
 voluptuous==0.10.5
 flake8==3.5.0
