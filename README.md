@@ -12,12 +12,10 @@ you can do `Qiscus` api call by using the `Qiscus` object
 example:
 ```
 qiscus = QiscusBuilder().set_app_id('your app id').set_app_secret('your app secret').build()
-payload = {
-	'email': 'your@email.com',
-	'username': 'your user name',
-	'password': 'password',
-}
-result = qiscus.login_register(payload)
+result = qiscus.login_register(
+	email='your@mail.com',
+	password='yourpassword',
+	username='yourusername')
 ``` 
 
 The above call will come with something like this:
@@ -48,7 +46,8 @@ The above call will come with something like this:
 			'username': 'your username'
 		}
 	}, 
-	'status': 200}
+	'status': 200
+}
 
 ```
 
