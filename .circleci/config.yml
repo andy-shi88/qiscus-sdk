@@ -50,6 +50,7 @@ jobs:
       - run:
           name: run linter
           command: |
+            . env/bin/activate
             flake8
 
       - store_artifacts:
