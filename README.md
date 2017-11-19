@@ -57,6 +57,8 @@ The above call will come with something like this:
 - [x] login register
 - [x] get user info
 - [x] reset user token
+- [x] get user rooms
+- [x] create rooms
 
 ## Tests
 - first activate the virtual environment `. env/bin/activate`
