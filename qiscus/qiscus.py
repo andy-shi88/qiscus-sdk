@@ -110,3 +110,23 @@ class Qiscus(ApiBase):
 			'avatar_url': avatar_url
 		}
 		return self.post(endpoint=ENDPOINTS['create_room'], payloads=payloads)
+
+	def update_room(
+		self, user_email, room_id, room_name=None,
+		room_avatar_url=None, options=None):
+		"""Update room information.
+		@params:
+			- user_email: string - required
+			- room_id: string - required
+			- room_name: string - optional
+			- room_avatar_url: string - optional
+			- options: string - optional
+		"""
+		payloads = {
+			'user_email': user_email,
+			'room_id': room_id,
+			'room_name': room_name,
+			'room_avatar_url': room_avatar_url,
+			'options': options
+		}
+		return self.post(endpoint=ENDPOINTS['update_room'], payloads=payloads)

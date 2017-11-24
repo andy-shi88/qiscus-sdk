@@ -5,5 +5,6 @@ ENDPOINTS = {
     'user_profile': 'user_profile',
     'reset_user_token': 'reset_user_token',
     'get_user_rooms': 'get_user_rooms',
-    'create_room': 'create_room'
+    'create_room': 'create_room',
+    'update_room': 'update_room'
 }

@@ -1,7 +1,7 @@
 import uuid # noqa
 import random # noqa
 from unittest import TestCase
-from voluptuous import Schema, Required
+from voluptuous import Schema, Required, ALLOW_EXTRA
 
 from .constants import TEST_APP
 from ..qiscus_builder import QiscusBuilder
@@ -110,6 +110,18 @@ class TestApi(TestCase):
 			},
 			Required('status'): int
 		})
+		self.room_updated_schema = Schema({
+			Required('results'): {
+				Required('changed'): bool,
+				Required('room'): {
+					Required('participants'): list,
+					Required('room_name'): str,
+					Required('raw_room_name'): str,
+					Required('unique_id'): str,
+				},
+			},
+			Required('status'): int
+		}, extra=ALLOW_EXTRA)
 
 	def test_login_register(self):
 		"""Test login and register method call."""
@@ -220,6 +232,31 @@ class TestApi(TestCase):
 			name=None,
 			participants=[],
 			creator=None)
+		self.assertTrue(isinstance(invalidpayload_result, dict))
+		self.assertEqual(invalidpayload_result['status'], 400)
+		self.assertEqual(self.invalid_payload_schema(
+			invalidpayload_result), invalidpayload_result)
+
+	def test_update_room(self):
+		"""Update room tests."""
+		result = self.qiscus.update_room(
+			user_email=self.login_register_payload['email'],
+			room_id="54868")
+		self.assertTrue(isinstance(result, dict))
+		self.assertEqual(result['status'], 200)
+		self.assertEqual(self.room_updated_schema(result), result)
+		"""Not registered email test."""
+		notfound_result = self.qiscus.update_room(
+			user_email='damn@it.com',
+			room_id='7894')
+		self.assertTrue(isinstance(notfound_result, dict))
+		self.assertEqual(notfound_result['status'], 400)
+		self.assertEqual(self.invalid_payload_schema(
+			notfound_result), notfound_result)
+		"""Invalid payload test"""
+		invalidpayload_result = self.qiscus.update_room(
+			user_email=None,
+			room_id=None)
 		self.assertTrue(isinstance(invalidpayload_result, dict))
 		self.assertEqual(invalidpayload_result['status'], 400)
 		self.assertEqual(self.invalid_payload_schema(
